@@ -1,5 +1,4 @@
-let colors, w, h, counter;
-let clouds = new Array(3);
+let colors, w, h, clouds;
 
 function setup() {
   // put setup code here
@@ -28,7 +27,9 @@ function createSky() {
   background(colors.sky);
   fill(color(colors.sun));
   ellipse(100, 100, 325, 325);
-  for (let i = 0; i < 7; i++) {
+  let numClouds =  Math.floor((Math.random() * 20) + 4);
+  clouds = new Array(numClouds);
+  for (let i = 0; i < numClouds; i++) {
     createCloud(i);
   }
 }
@@ -63,7 +64,7 @@ function createCloud(index) {
   fill(color(colors.clouds));
   clouds[index].left = ellipse(x, y, 90, 90);
   x+=60;
-  clouds[index].center = ellipse(x, y-25, 130, 130);
+  clouds[index].center = ellipse(x, y-20, 130, 130);
   x+=60;
   clouds[index].right = ellipse(x, y, 90, 90);
 }
