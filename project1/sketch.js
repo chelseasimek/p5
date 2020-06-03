@@ -8,6 +8,9 @@
  * users to click and add different animals to their farm, similar to the
  * song. I will use fuctions to create static assets like the farm itself
  * and different animals that can be placed around the farm.
+ * My appliation aims to have a fun light hearted tone to it, with the animals
+ * and farm itself designed to be very blocky in sytle, similar to if it was taken
+ * out of a childrens illustration style.
  * Using built in functionality of P5, I plan on checking where users
  * click on the canvas and randomly generate that animal somewhere on the
  * farm.
@@ -35,12 +38,21 @@ function setup() {
       beak: color('#FFC293'),
       legs: color('#FFC293')
     },
+    sheep: {
+      body: color('#FFFFFF'),
+      head: color('#000000'),
+      ears: color('#3E3E3E'),
+      legs: color('#000000'),
+
+    },
     general: {
       white: color('#FFFFFF'),
+      grey: color('#D8D8D8'),
       black: color('#000000')
     }
   };
   selector = {x: 1528, y: 75, w: 315, h: 245};
+  animals = [ 'Pig', 'Chick', 'Horse', 'Sheep' ];
   createCanvas(1920, 1280);
   ellipseMode(CORNER);
   createFarm();
@@ -100,7 +112,6 @@ function createAnimalPanel() {
   noStroke();
   fill(colors.panel.background);
   rect(1490, 40, 395, 1200, 35);
-  let animals = [ 'Pig', 'Chick', 'Horse', 'Sheep' ];
 
   animals.forEach(animal => {
     window[`draw${animal}Selector`](selector.x, selector.y);
@@ -109,7 +120,7 @@ function createAnimalPanel() {
 }
 
 function drawSelector(x, y, shouldFill) {
-  shouldFill ? fill(colors.general.white) : fill(colors.panel.background);
+  shouldFill ? fill(colors.general.grey) : fill(colors.panel.background);
   stroke(colors.general.white);
   strokeWeight(12);
   rect(x, y, selector.w, selector.h, 35);
@@ -202,6 +213,34 @@ function drawHorse(x, y) {  }
 
 function drawSheepSelector(x, y, shouldFill) {
   drawSelector(x, y, shouldFill);
-  drawPig(x + 45, y + 45);
+  drawSheep(x + 35, y + 45);
 }
-function drawSheep(x, y) {  }
+function drawSheep(x, y) {
+  // legs
+  stroke(colors.sheep.legs);
+  strokeWeight(15);
+  line(x + 63, y + 86, x + 42, y + 126);
+  line(x + 81, y + 93, x + 100, y + 142);
+  line(x + 182, y + 97, x + 160, y + 144);
+  line(x + 196, y + 97, x + 214, y + 144);
+
+  noStroke();
+  // body
+  fill(colors.sheep.body);
+  circle(x + 33, y + 26, 59);
+  circle(x + 72, y + 12, 59);
+  circle(x + 120, y + 12, 59);
+  circle(x + 166, y + 26, 59);
+  circle(x + 150, y + 56, 59);
+  circle(x + 107, y + 56, 59);
+  circle(x + 61, y + 56, 59);
+
+  // head
+  fill(colors.sheep.head);
+  circle(x + 14, y, 72);
+  fill(colors.sheep.ears);
+  ellipse(x, y + 11, 20, 60);
+  ellipse(x + 75, y + 11, 20, 60);
+  circle(x + 27, y + 24, 15);
+  circle(x + 56, y + 24, 15);
+}
