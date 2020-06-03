@@ -12,7 +12,7 @@
  * click on the canvas and randomly generate that animal somewhere on the
  * farm.
  */
-let colors;
+let colors, animals, selector;
 function setup() {
   // put setup code here
   colors = {
@@ -20,6 +20,7 @@ function setup() {
       sky: color('#ABEEFF'),
       clouds: color('#FFFFFF'),
       fence: color('#F4F4F4'),
+      house: color('#CD7777'),
       grass: color('#3BA27E'),
     },
     panel: {
@@ -29,11 +30,17 @@ function setup() {
       body: color('#E6C3D6'),
       nose: color('#C58BAB')
     },
+    chick: {
+      body: color('#FFEC9F'),
+      beak: color('#FFC293'),
+      legs: color('#FFC293')
+    },
     general: {
       white: color('#FFFFFF'),
       black: color('#000000')
     }
   };
+  selector = {x: 1528, y: 75, w: 315, h: 245};
   createCanvas(1920, 1280);
   ellipseMode(CORNER);
   createFarm();
@@ -57,6 +64,11 @@ function createFarm() {
   // sky
   fill(colors.farm.sky);
   rect(0, 0, 1450, 1100);
+
+  // farm
+  fill(colors.farm.house);
+  ellipse(-175, 495, 455, 415);
+  rect(0, 693, 280, 453);
 
   // grass
   fill(colors.farm.grass);
@@ -88,20 +100,24 @@ function createAnimalPanel() {
   noStroke();
   fill(colors.panel.background);
   rect(1490, 40, 395, 1200, 35);
-
-  let animals = [ 'Pig', 'Chick', 'Horse', 'Cow' ];
-  let box = { x: 1528, y: 75, w: 315, h: 245 }
+  let animals = [ 'Pig', 'Chick', 'Horse', 'Sheep' ];
 
   animals.forEach(animal => {
-    noFill();
-    stroke(colors.general.white);
-    strokeWeight(12);
-    window[`${animal}Box`] = rect(box.x, box.y, box.w, box.h, 35);
-    window[`draw${animal}`](box.x + 45, box.y + 45);
-    box.y += box.h + 50;
+    window[`draw${animal}Selector`](selector.x, selector.y);
+    selector.y += selector.h + 50;
   });
+}
 
-  // drawPig(510, 510);
+function drawSelector(x, y, shouldFill) {
+  shouldFill ? fill(colors.general.white) : fill(colors.panel.background);
+  stroke(colors.general.white);
+  strokeWeight(12);
+  rect(x, y, selector.w, selector.h, 35);
+}
+
+function drawPigSelector(x, y, shouldFill) {
+  drawSelector(x, y, shouldFill);
+  drawPig(x + 45, y + 45);
 }
 
 function drawPig(x, y) {
@@ -111,11 +127,11 @@ function drawPig(x, y) {
   triangle(x + 10, y + 25, x + 10, y, x + 50, y + 25);
   triangle(x + 60, y + 25, x + 90, y, x + 80, y + 25);
 
-  // body
-  ellipse(x, y + 10, 90, 90);
+  // body & head
+  circle(x, y + 10, 90);
+  ellipse(x + 55, y + 53, 150, 85);
 
   // legs
-  ellipse(x + 55, y + 53, 150, 85);
   ellipse(x + 53, y + 95, 25,60);
   ellipse(x + 84, y + 105, 25, 55);
   ellipse(x + 155, y + 105, 25, 55);
@@ -125,8 +141,8 @@ function drawPig(x, y) {
   fill(colors.pig.nose);
   ellipse(x + 25, y + 62, 40, 25);
   fill(colors.general.black);
-  ellipse(x + 25, y + 43, 15, 15);
-  ellipse(x + 50, y + 43, 15, 15);
+  circle(x + 25, y + 43, 15);
+  circle(x + 50, y + 43, 15);
 
   // tail
   noFill();
@@ -144,8 +160,48 @@ function drawPig(x, y) {
     y + tailStart.y + 5);
 }
 
-function drawChick(x, y) {  }
+function drawChickSelector(x, y, shouldFill) {
+  drawSelector(x, y, shouldFill);
+  drawChick(x + 80, y + 50);
+}
 
+function drawChick(x, y) {
+  noStroke();
+  fill(colors.chick.body);
+
+  // tail
+  triangle(x, y + 56, x + 46, y + 80, x + 43, y + 107);
+
+  // body
+  circle(x + 34, y + 41, 78);
+
+  // head
+  circle(x + 75, y, 58);
+
+  // nose & eyes
+  fill(colors.general.black);
+  circle(x + 99, y + 19, 9);
+  circle(x + 112, y + 19, 9);
+  fill(colors.chick.beak);
+  triangle(x + 121, y + 26, x + 150, y + 39, x + 115, y + 45);
+
+  // legs & feet
+  stroke(colors.chick.legs);
+  strokeWeight(8);
+  line(x + 59, y + 108, x + 49, y + 141);
+  line(x + 85, y + 110, x + 95, y + 143);
+  line(x + 49, y + 141, x + 59, y + 143);
+  line(x + 95, y + 143, x + 105, y + 136);
+}
+
+function drawHorseSelector(x, y, shouldFill) {
+  drawSelector(x, y, shouldFill);
+  drawPig(x + 45, y + 45);
+}
 function drawHorse(x, y) {  }
 
-function drawCow(x, y) {  }
+function drawSheepSelector(x, y, shouldFill) {
+  drawSelector(x, y, shouldFill);
+  drawPig(x + 45, y + 45);
+}
+function drawSheep(x, y) {  }
