@@ -18,6 +18,7 @@
 let colors, animals, selector;
 function setup() {
   // put setup code here
+  // set up colors and hex values for all project colors
   colors = {
     farm: {
       sky: color('#ABEEFF'),
@@ -27,7 +28,7 @@ function setup() {
       grass: color('#3BA27E'),
     },
     panel: {
-      background: color('#242424')
+      background: color('#393939')
     },
     pig: {
       body: color('#E6C3D6'),
@@ -51,35 +52,46 @@ function setup() {
     },
     general: {
       white: color('#FFFFFF'),
-      grey: color('#F2F2F2'),
+      grey: color('#1D1D1D'),
       black: color('#000000')
     }
   };
+
+  // seletor start values
   selector = {x: 1528, y: 75, w: 315, h: 245};
+
   animals = [ 'Pig', 'Chick', 'Horse', 'Sheep' ];
   createCanvas(1920, 1280);
   ellipseMode(CORNER);
+
+  // only draw farm once
   createFarm();
 }
 
 function draw() {
+  // clear out highlighted selectors
   createAnimalPanel();
+  // if the mouse is inside of a panel selector
   let { animal, y } = getSelected(pmouseX, pmouseY);
   if (animal && y) {
+    // highlight that selector
     window[`draw${animal}Selector`](selector.x, y, true);
   }
 }
 
 function mousePressed () {
-  createAnimalPanel();
+  // if a selector is clicked on
   let { animal } = getSelected(pmouseX, pmouseY);
   if (animal) {
+    // randomly draw that animal on the farm
     window[`draw${animal}`](random(1125), random(920, 1135));
   }
 }
 
 function getSelected(x, y) {
-  if (x > 1528) {
+  // if we are inside of the bounds of the panel
+  if (x > 1528 && x < width - 75) {
+    // if we are selected on a panel selector
     if (y >= 75 && y <= 320 ) {
       return {
         animal: 'Pig',
@@ -104,8 +116,10 @@ function getSelected(x, y) {
         y: 960
       }
     }
+      // otherwise, return nothing
     else return {};
   }
+  // otherwise, return nothing
   else return {};
 }
 
@@ -114,6 +128,11 @@ function createFarm() {
   // sky
   fill(colors.farm.sky);
   rect(0, 0, 1450, 1080);
+
+  // clouds
+  for (let i = 0; i < 6; i++) {
+    createCloud();
+  }
 
   // farm
   fill(colors.farm.house);
@@ -127,7 +146,19 @@ function createFarm() {
   createFence();
 }
 
+function createCloud() {
+  let x = Math.floor(random(1140));
+  let y = Math.floor(random(1000));
+  fill(color(colors.farm.clouds));
+  ellipse(x, y, 90, 90);
+  x+=60;
+  ellipse(x, y-40, 130, 130);
+  x+=90;
+  ellipse(x, y, 90, 90);
+}
+
 function createFence() {
+  noStroke();
   fill(colors.farm.fence);
   // posts
   let postX = 60;
@@ -160,7 +191,7 @@ function createAnimalPanel() {
 
 function drawSelector(x, y, shouldFill) {
   shouldFill ? fill(colors.general.grey) : fill(colors.panel.background);
-  stroke(colors.general.white);
+  stroke(colors.general.grey);
   strokeWeight(12);
   rect(x, y, selector.w, selector.h, 35);
 }
