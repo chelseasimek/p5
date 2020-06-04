@@ -87,7 +87,7 @@ function mousePressed () {
   let { animal } = getSelected(pmouseX, pmouseY);
   if (animal) {
     // randomly draw that animal on the farm
-    window[`draw${animal}`](random(1125), random(920, 1135));
+    window[`draw${animal}`](random(1125), random(1000, 1100));
   }
 }
 
