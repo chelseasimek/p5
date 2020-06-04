@@ -38,6 +38,10 @@ function setup() {
       beak: color('#FFC293'),
       legs: color('#FFC293')
     },
+    horse: {
+      body: color('#896E66'),
+      mane: color('#000000')
+    },
     sheep: {
       body: color('#FFFFFF'),
       head: color('#000000'),
@@ -47,7 +51,7 @@ function setup() {
     },
     general: {
       white: color('#FFFFFF'),
-      grey: color('#D8D8D8'),
+      grey: color('#F2F2F2'),
       black: color('#000000')
     }
   };
@@ -56,26 +60,60 @@ function setup() {
   createCanvas(1920, 1280);
   ellipseMode(CORNER);
   createFarm();
-  createAnimalPanel();
 }
 
 function draw() {
-
+  createAnimalPanel();
+  let { animal, y } = getSelected(pmouseX, pmouseY);
+  if (animal && y) {
+    window[`draw${animal}Selector`](selector.x, y, true);
+  }
 }
 
 function mousePressed () {
-
+  createAnimalPanel();
+  let { animal } = getSelected(pmouseX, pmouseY);
+  if (animal) {
+    window[`draw${animal}`](random(1125), random(920, 1135));
+  }
 }
 
-function mouseReleased () {
-
+function getSelected(x, y) {
+  if (x > 1528) {
+    if (y >= 75 && y <= 320 ) {
+      return {
+        animal: 'Pig',
+        y: 75
+      }
+    }
+    else if (y >= 370 && y <=615) {
+      return {
+        animal: 'Chick',
+        y: 370
+      }
+    }
+    else if (y >= 665 && y <=910) {
+      return {
+        animal: 'Horse',
+        y: 665
+      }
+    }
+    else if (y >= 960 && y <= 1205) {
+      return {
+        animal: 'Sheep',
+        y: 960
+      }
+    }
+    else return {};
+  }
+  else return {};
 }
 
 function createFarm() {
   noStroke();
   // sky
   fill(colors.farm.sky);
-  rect(0, 0, 1450, 1100);
+  rect(0, 0, 1450, 1080);
 
   // farm
   fill(colors.farm.house);
@@ -84,7 +122,7 @@ function createFarm() {
 
   // grass
   fill(colors.farm.grass);
-  rect(0, 1100, 1450, 175);
+  rect(0, 1080, 1450, 200);
 
   createFence();
 }
@@ -95,12 +133,12 @@ function createFence() {
   let postX = 60;
   let postW = 50;
   for (let i = 0; i < 3; i++) {
-    rect(postX, 885, postW, 285);
+    rect(postX, 850, postW, 285);
     postX += (postW * i) + 600;
   }
 
   // panels
-  let panelY = 935;
+  let panelY = 885;
   let postH = 50;
   for (let i = 0; i < 2; i++) {
     rect(0, panelY, 1450, postH);
@@ -109,12 +147,14 @@ function createFence() {
 }
 
 function createAnimalPanel() {
+  selector.y = 75;
   noStroke();
   fill(colors.panel.background);
   rect(1490, 40, 395, 1200, 35);
 
   animals.forEach(animal => {
     window[`draw${animal}Selector`](selector.x, selector.y);
+    console.log(selector.x, selector.y);
     selector.y += selector.h + 50;
   });
 }
@@ -209,11 +249,14 @@ function drawHorseSelector(x, y, shouldFill) {
   drawSelector(x, y, shouldFill);
   drawPig(x + 45, y + 45);
 }
-function drawHorse(x, y) {  }
+function drawHorse(x, y) {
+
+
+ }
 
 function drawSheepSelector(x, y, shouldFill) {
   drawSelector(x, y, shouldFill);
-  drawSheep(x + 35, y + 45);
+  drawSheep(x + 38, y + 45);
 }
 function drawSheep(x, y) {
   // legs
@@ -224,8 +267,8 @@ function drawSheep(x, y) {
   line(x + 182, y + 97, x + 160, y + 144);
   line(x + 196, y + 97, x + 214, y + 144);
 
-  noStroke();
   // body
+  noStroke();
   fill(colors.sheep.body);
   circle(x + 33, y + 26, 59);
   circle(x + 72, y + 12, 59);
