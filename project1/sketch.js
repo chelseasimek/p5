@@ -166,7 +166,7 @@ function drawSmoke() {
   // smoke
   let multiplier = frameCount % 100;
   let alpha = (100 - multiplier)/100;
-  fill(color(73, 73, 73, Math.ceil(255 * alpha)));
+  fill(color(131, 131, 131, Math.ceil(255 * alpha)));
   circle(239 + multiplier, 383 - (multiplier), multiplier < 55 ? 55 - multiplier : 0);
   circle(239 + multiplier, 383 - (multiplier * 1.5), multiplier < 70 ? 70 - multiplier : 0);
   circle(239 + multiplier, 383 - (multiplier * 2), multiplier < 30 ? 30 - multiplier : 0);
