@@ -15,16 +15,18 @@
  * click on the canvas and randomly generate that animal somewhere on the
  * farm.
  */
-let colors, animals, selector;
+let colors, animals, selector, smoke;
 function setup() {
   // put setup code here
   // set up colors and hex values for all project colors
   colors = {
     farm: {
+      sun: color('#FFE2A8'),
       sky: color('#ABEEFF'),
-      clouds: color('#FFFFFF'),
+      clouds: color('#E3F9FF'),
       fence: color('#F4F4F4'),
       house: color('#CD7777'),
+      chimney: color('#B15C5C'),
       grass: color('#3BA27E'),
     },
     panel: {
@@ -69,6 +71,7 @@ function setup() {
 }
 
 function draw() {
+  drawSmoke();
   // clear out highlighted selectors
   createAnimalPanel();
   // if the mouse is inside of a panel selector
@@ -129,10 +132,18 @@ function createFarm() {
   fill(colors.farm.sky);
   rect(0, 0, 1450, 1080);
 
+  // sun
+  fill(colors.farm.sun);
+  circle(-50, -50, 200);
+
   // clouds
   for (let i = 0; i < 6; i++) {
     createCloud();
   }
+
+  // chimney
+  fill(colors.farm.chimney);
+  rect(200, 470, 77, 280);
 
   // farm
   fill(colors.farm.house);
@@ -143,11 +154,26 @@ function createFarm() {
   fill(colors.farm.grass);
   rect(0, 1080, 1450, 200);
 
+
   createFence();
 }
 
+function drawSmoke() {
+  noStroke();
+  fill(colors.farm.sky);
+  rect(220, 250, 100, 210);
+
+  // smoke
+  let multiplier = frameCount % 100;
+  let alpha = (100 - multiplier)/100;
+  fill(color(73, 73, 73, Math.ceil(255 * alpha)));
+  circle(239 + multiplier, 383 - (multiplier), multiplier < 55 ? 55 - multiplier : 0);
+  circle(239 + multiplier, 383 - (multiplier * 1.5), multiplier < 70 ? 70 - multiplier : 0);
+  circle(239 + multiplier, 383 - (multiplier * 2), multiplier < 30 ? 30 - multiplier : 0);
+}
+
 function createCloud() {
-  let x = Math.floor(random(1140));
+  let x = Math.floor(random(300, 1140));
   let y = Math.floor(random(1000));
   fill(color(colors.farm.clouds));
   ellipse(x, y, 90, 90);
