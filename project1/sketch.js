@@ -154,7 +154,6 @@ function createAnimalPanel() {
 
   animals.forEach(animal => {
     window[`draw${animal}Selector`](selector.x, selector.y);
-    console.log(selector.x, selector.y);
     selector.y += selector.h + 50;
   });
 }
@@ -247,10 +246,38 @@ function drawChick(x, y) {
 
 function drawHorseSelector(x, y, shouldFill) {
   drawSelector(x, y, shouldFill);
-  drawPig(x + 45, y + 45);
+  drawHorse(x + 20, y + 20);
 }
 function drawHorse(x, y) {
+    noStroke();
+    // body
+    fill(colors.horse.body);
+    rect(x + 54, y + 77, 160, 70);
 
+    // head
+    rect(x + 180, y + 20, 85, 85);
+
+    // ears
+    triangle(x + 173, y + 4, x + 181, y + 37, x + 191, y + 20);
+    triangle(x + 272, y, x + 253, y + 20, x + 264, y + 38);
+
+    // legs
+    rect(x + 54, y + 127, 22, 77);
+    rect(x + 88, y + 127, 22, 77);
+    rect(x + 158, y + 127, 22, 77);
+    rect(x + 192, y + 127, 22, 77);
+
+    // mane
+    fill(colors.horse.mane);
+    circle(x, y + 103, 45);
+    circle(x + 13, y + 63, 55);
+    circle(x + 113, y + 46, 45);
+    circle(x + 146, y + 42, 45);
+    circle(x + 215, y + 7, 25);
+
+    // eyes
+    circle(x + 206, y + 40, 18);
+    circle(x + 233, y + 40, 18);
 
  }
 
