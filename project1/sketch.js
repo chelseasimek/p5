@@ -15,6 +15,8 @@
  * click on the canvas and randomly generate that animal somewhere on the
  * farm.
  */
+
+
 let colors, animals, selector, smoke;
 function setup() {
   // put setup code here

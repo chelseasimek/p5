@@ -1,13 +1,13 @@
 var img;
 function preload() {
-  img = loadImage("768px-VAN_CAT.png");
+  img = loadImage("http://placekitten.com/g/768/768");
 }
 function setup() {
   createCanvas(768,768);
   image(img,0,0);
   loadPixels();
   frameRate(24);
-  // noStroke();
+  noStroke();
 }
 function draw() {
   var d = pixelDensity();
@@ -18,13 +18,13 @@ function draw() {
       var r = pixels[index];
       var g = pixels[index+1];
       var b = pixels[index+2];
-      fill(r,g,b);
-      var radius = 20;
-      var movement = 0;
+      var a = Math.floor(255 * random(1));
+      fill(r,g,b,a);
+      var radius = 50;
       if(x > mouseX-radius && x < mouseX+radius &&
          y > mouseY-radius && y < mouseY+radius) {
-           movement = random(10);
-           square(x+movement,y+movement,pxSz);
+           let movement = random(-100, 100);
+           circle(x+movement,y+movement,Math.floor(random(5, 25)));
        }
     }
   }
