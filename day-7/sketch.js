@@ -25,8 +25,10 @@ function setup() {
   drawLabels();
   //create a button for each row (mood)
   for(var mood of chords.rows) {
+    // break draw button out into function
     drawButton(mood.getString("progression_quality"), divButtons)
   }
+  // add clear button to end of div
   drawButton('Clear', divButtons);
 }
 
