@@ -68,7 +68,8 @@ function drawEllipses(name) {
     ellipse(chord3*100, 300, 50, 50);
     ellipse(chord4*100, 400, 50, 50);
   }
-  if(name != "noMood" && name !== "Clear") {
+  // get rid of hard coded words here
+  if(chords.findRow(name,"progression_quality")) {
     var mood = chords.findRow(name,"progression_quality");
     fill(mood.getString("color"));
     ellipse(mood.getNum(0)*100, 100, 50, 50);
